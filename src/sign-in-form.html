@@ -1,0 +1,50 @@
+<!--
+@license
+Copyright (c) 2016 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<link rel="import" href="../bower_components/polymer/polymer-element.html">
+
+<dom-module id="sign-in-form">
+  <template>
+    <style>
+      :host {
+        display: block;
+        padding: 0 16px;
+      }
+    </style>
+
+    <iron-form id="ironForm">
+      <form enctype="application/json" action="/auth/sign-in" method="POST">
+        <paper-input id="usernameInput" type="text" name="username" label="Username" value="{{credentials.username::input}}"></paper-input>
+        <paper-input type="password" name="password" label="Password" value="{{credentials.password::input}}"></paper-input>
+        <paper-button raised on-tap="signIn">Sign In</paper-button>
+      </form>
+    </iron-form>
+  </template>
+
+  <script>
+    class SignInForm extends Polymer.Element {
+      static get is() { return 'sign-in-form'; }
+
+      ready() {
+        super.ready();
+
+        this.$.ironForm.addEventListener('iron-form-response', (e) => {
+          console.log(e.detail.response)
+        });
+      }
+
+      signIn() {
+        this.$.ironForm.submit();
+      }
+    }
+
+    window.customElements.define(SignInForm.is, SignInForm);
+  </script>
+</dom-module>
